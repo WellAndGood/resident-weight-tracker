@@ -1,3 +1,4 @@
+
 import React from 'react'
 import {
     Modal,
@@ -75,60 +76,8 @@ function WeightsTable() {
 
     return (
         <>
-            {/* <AddWeight isOpen={isOpen} onClose={onClose}/> */}
+            <AddWeight isOpen={isOpen} onClose={onClose} />
             <Button onClick={onOpen}>New</Button>
-            <Modal isOpen={isOpen} onClose={onClose} size="xl">
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Weights and Vitals</ModalHeader>
-                    <ModalBody>
-                        <Text>
-                            <FormControl id="weight">
-                                <FormLabel>Weight</FormLabel>
-                                <Input type="number" />
-                                <FormHelperText>The current weight.</FormHelperText>
-                            </FormControl>
-                            <FormControl id="heightMethod">
-                                <FormLabel>Method:</FormLabel>
-                                <Select placeholder="Select method weight was taken">
-                                    <option value="standing">Standing</option>
-                                    <option value="bath">Bath</option>
-                                    <option value="sitting">Sitting</option>
-                                    <option value="wheelchair">Wheelchair</option>
-                                    <option value="lift_scale">Lift Scale</option>
-                                    <option value="chair_scale">Chair Scale</option>
-                                    <option value="mechanical_lift">Mechanical Lift</option>
-                                </Select>
-                                <FormHelperText>The scale used.</FormHelperText>
-                            </FormControl>
-                            <FormControl id="height">
-                                <FormLabel>Height</FormLabel>
-                                <Input type="number" />
-                                <FormHelperText>The current height.</FormHelperText>
-                            </FormControl>
-                            <FormControl id="heightMethod">
-                                <FormLabel>Method</FormLabel>
-                                <Select placeholder="Select method height was taken">
-                                    <option value="standing">Standing</option>
-                                    <option value="lying_down">Lying Down</option>
-                                    <option value="wing_span">Wing Span</option>
-                                    <option value="knee_height">Knee Height</option>
-                                    <option value="ulnar_segment">Ulnar segment</option>
-                                </Select>
-                                <FormHelperText>The scale used.</FormHelperText>
-                            </FormControl>
-                        </Text>
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button variant="ghost" mr={3} onClick={onClose}>
-                            Cancel
-                        </Button>
-                        <Button variant="blue">Save</Button>
-                    </ModalFooter>
-                </ModalContent>
-
-            </Modal>
             <Table variant="simple" size="sm">
                 <TableCaption>Imperial to metric conversion factors</TableCaption>
                 <Thead>
@@ -149,7 +98,7 @@ function WeightsTable() {
                         let dateDiff = 0
                         let dateDifference = 0
                         if (nextValue) {
-                            weightDifference = val.value - nextValue.value
+                            weightDifference = val.weightValue - nextValue.weightValue
                             dateDiff = (new Date(nextValue.date) - new Date(val.date)) / 1000 / 24 / 60 / 60
                             dateDifference = Math.abs(dateDiff).toFixed(0)
                         }
@@ -158,8 +107,8 @@ function WeightsTable() {
                             <Tr key={i}>
                                 <Td><Button>strike-out</Button></Td>
                                 <Td>{val.date}</Td>
-                                <Td isNumeric>{val.value} Kg</Td>
-                                <Td isNumeric>{kgToPounds(val.value)} lb</Td>
+                                <Td isNumeric>{val.weightValue} Kg</Td>
+                                <Td isNumeric>{kgToPounds(val.weightValue)} lb</Td>
                                 <Td>{weightDifference.toFixed(2)} kgs / {dateDifference} days</Td>
                                 <Td>{val.scale}</Td>
                                 <Td></Td>

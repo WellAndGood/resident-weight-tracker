@@ -1,37 +1,37 @@
 [
     {
         "date": "9/3/2021 14:47",
-        "value": 81.9,
+        "weightValue": 81.9,
         "scale": "sitting",
         "strikedOut": false
     },
     {
         "date": "8/6/2021 14:18",
-        "value": 82.3,
+        "weightValue": 82.3,
         "scale": "chair scale",
         "strikedOut": false
     },
     {
         "date": "7/2/2021 10:17",
-        "value": 77.8,
+        "weightValue": 77.8,
         "scale": "sitting",
         "strikedOut": false
     },
     {
         "date": "7/2/2021 10:14",
-        "value": 77.8,
+        "weightValue": 77.8,
         "scale": "sitting",
         "strikedOut": true
     },
     {
         "date": "6/4/2021 14:57",
-        "value": 70.8,
+        "weightValue": 70.8,
         "scale": "chair scale",
         "strikedOut": false
     },
     {
         "date": "6/2/2021 01:04",
-        "value": 71.9,
+        "weightValue": 71.9,
         "scale": "sitting",
         "strikedOut": false
     }
