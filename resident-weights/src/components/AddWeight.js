@@ -7,7 +7,7 @@
  * [ ] Graph (react-chartjs-2)
  */
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -17,40 +17,51 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  useDisclosure,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   FormHelperText,
   Input,
   Select,
   Button,
   Text,
-  Lorem
 } from "@chakra-ui/react"
 
 import data from '../residentData.json'
 import fs from 'fs'
 
-function saveData(vitals) {
-  console.log(vitals)
-}
 
-function AddWeight({ isOpen, onClose, selected, onChange, date }) {
+function AddWeight({ isOpen, onClose, selected, onChange, date, setData }) {
   const [startDate, setStartDate] = useState(new Date());
   
+  const _setData = useCallback((val) => {
+    setData(val)
+  }, [setData]) 
   const [weightInput, setWeightInput] = useState(0)
   const [formData, setFormData] = useState({
-    date: new Date(),
-    weightValue: 0,
-    
+    date: new Date()    
   });
+  function saveData() {
+    console.log(formData)
+    
+    // const newDate = moment(formData.date, "MM/DD/YYYY HH:mm") 
 
+    /**
+     *  Input: new Date("9/3/2021 14:47")
+     *  Output: Fri Sep 03 2021 14:47:00 GMT-0400 (hora de Venezuela)
+     */
+    let wtData = data
+    wtData.push(formData)
+    wtData.sort((a,b) => new Date(a["date"]) - new Date(b["date"]))
+    console.log(wtData)
+    _setData(wtData)
+    // fs.writeFileSync('../residentData.json', wtData)
+  }
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
     console.log(formData)
+    setFormData({ ...formData, [name]: value });
+    
   };
 
   return (
@@ -64,10 +75,7 @@ function AddWeight({ isOpen, onClose, selected, onChange, date }) {
               name="date"
               value={formData.date}
               selected={formData.date}
-              onChange={(date) => {
-                setStartDate(date)
-                handleInputChange({target: {name: 'date', value: date}})
-              }}
+              onChange={(date) => handleInputChange({target: {name: 'date', value: date } }) }
               showTimeSelect
               dateFormat="Pp"
             />
@@ -76,16 +84,16 @@ function AddWeight({ isOpen, onClose, selected, onChange, date }) {
               <FormLabel>Weight</FormLabel>
               
               {/* Causing errors */}
-              <Input name="weightValue" value={formData.weightValue} onChange={(event) => handleInputChange({target: {name: 'weight', value: event.target.value}})} type="number" />
+              <Input name="weightValue" value={formData.weightValue} onChange={handleInputChange} type="number" />
               {/* Causing errors */}
-
+                
               <FormHelperText>The current weight in kilograms.</FormHelperText>
             </FormControl>
-            <FormControl id="heightMethod">
+            <FormControl id="weightMethod" onChange={handleInputChange}>
               <FormLabel>Method:</FormLabel>
-              <Select placeholder="Select method weight was taken">
-                <option value="standing">Standing</option>
-                <option value="bath">Bath</option>
+              <Select name="weightMethod" placeholder="Select method weight was taken" onChange={handleInputChange}>
+                <option name="weightMethod" value="standing">Standing</option>
+                <option name="weightMethod" value="bath">Bath</option>
                 <option value="sitting">Sitting</option>
                 <option value="wheelchair">Wheelchair</option>
                 <option value="lift_scale">Lift Scale</option>
@@ -96,12 +104,12 @@ function AddWeight({ isOpen, onClose, selected, onChange, date }) {
             </FormControl>
             <FormControl id="height">
               <FormLabel>Height</FormLabel>
-              <Input type="number" />
+              <Input name="height" type="number" onChange={handleInputChange}/>
               <FormHelperText>The current height in centimeters.</FormHelperText>
             </FormControl>
             <FormControl id="heightMethod">
               <FormLabel>Method</FormLabel>
-              <Select placeholder="Select method height was taken">
+              <Select name="heightMethod" placeholder="Select method height was taken" onChange={handleInputChange}>
                 <option value="standing">Standing</option>
                 <option value="lying_down">Lying Down</option>
                 <option value="wing_span">Wing Span</option>
